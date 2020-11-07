@@ -57,7 +57,7 @@ public class Principal {
 					op=sc.nextInt();
 				}catch(InputMismatchException e) {
 					System.out.println("NO INGRESE LETRAS");
-					System.out.println("INGRESE OPCION NUEVAMENTE");
+					System.out.println("INGRESE OPCION NUEVAMENTEE");
 					cod = true;
 					sc.next();
 				}
