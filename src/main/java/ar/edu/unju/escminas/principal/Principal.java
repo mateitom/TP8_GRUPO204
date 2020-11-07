@@ -1,7 +1,9 @@
 package ar.edu.unju.escminas.principal;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,7 +40,7 @@ public class Principal {
 		menu(op, sc);
 	}
 	public static void menu(int op, Scanner sc) {
-		
+		boolean cod;
 		while (op!=7) {
 			System.out.println("----------MENU---------");
 			System.out.println("1- ALTA CLIENTE");
@@ -49,8 +51,17 @@ public class Principal {
 			System.out.println("6- MOSTRAR FACTURAS MAYORES A $1000");
 			System.out.println("7- SALIR");
 			System.out.println("Ingrese Opcion: ");
-			op=sc.nextInt();
-			
+			do {
+				cod = false;
+				try {
+					op=sc.nextInt();
+				}catch(InputMismatchException e) {
+					System.out.println("NO INGRESE LETRAS");
+					System.out.println("INGRESE OPCION NUEVAMENTE");
+					cod = true;
+					sc.next();
+				}
+			} while(cod == true);	
 			switch (op) {
 			case 1: darAltaCliente();
 			break;
@@ -72,6 +83,7 @@ public class Principal {
 		}
 	}
 	public static void darAltaCliente() {
+		boolean cod;
 		Cliente unCliente = new Cliente();
 		Scanner sc = new Scanner(System.in);
 		IClienteDao clienteDao = new ClienteDaoImp();
@@ -80,7 +92,17 @@ public class Principal {
 		System.out.println("INGRESE APELLIDO: ");
 		unCliente.setApellido(sc.next());
 		System.out.println("INGRESE DNI: ");
-		unCliente.setDni(sc.nextInt());
+		do {
+			cod = false;
+			try {
+				unCliente.setDni(sc.nextInt());
+			}catch(InputMismatchException e) {
+				System.out.println("INGRESE SU DNI EN NUMEROS");
+				System.out.println("INGRESE SU DNI NUEVAMENTE: ");
+				cod = true;
+				sc.next();
+			}
+		} while(cod == true);	
 		System.out.println("INGRESE DOMICILIO");
 		unCliente.setDomicilio(sc.next());
 		clienteDao.guardarCliente(unCliente);
@@ -96,8 +118,22 @@ public class Principal {
 		//facturaDao.guardarFactura(unaFactura);
 		unaFactura.setFecha(LocalDate.now());
 		unaFactura.setTotal(0);
-		System.out.println("INGRESE CODIGO DEL CLIENTE");
-		long codigo= sc.nextLong();
+		long codigo=0;
+		boolean cod, cod1, cod2, cod3;
+		System.out.println("INGRESE CODIGO DEL CLIENTE: ");
+		do {
+			
+			cod = false;
+			try {
+				codigo= sc.nextLong();
+			}catch(InputMismatchException e) {
+				System.out.println("FORMATO DE CODIGO ERRONEO (SOLO INGRESE NUMEROS)");
+				System.out.println("INGRESE CODIGO DEL CLIENTE NUEVAMENTE: ");
+				cod = true;
+				sc.next();
+			}
+		} while(cod == true);
+		
 		if (clienteDao.buscarCliente(codigo)==null) {
 			System.out.println("Cliente no encontrado, no se almacenara la factura");
 		}
@@ -106,12 +142,32 @@ public class Principal {
 			while (band==false) {
 				int op=0;
 				DetalleFactura unDetalle= new DetalleFactura();
-				System.out.println("INGRSE NOMBRE DEL PRODUCTO");
+				System.out.println("INGRESE NOMBRE DEL PRODUCTO");
 				unDetalle.setDescripcion(sc.next());
 				System.out.println("INGRESE PRECIO UNITARIO");
-				unDetalle.setPrecioUnitario(sc.nextDouble());
+				do {
+					cod1 = false;
+					try {
+						unDetalle.setPrecioUnitario(sc.nextDouble());
+					}catch(InputMismatchException e) {
+						System.out.println("FORMATO DE PRECIO INCORRECTO, NO INCLUYA LETRAS Y NO USE PUNTO");
+						System.out.println("INGRESE PRECIO UNITARIO NUEVAMENTE");
+						cod1 = true;
+						sc.next();
+					}
+				} while(cod1 == true);	
 				System.out.println("INGRESE CANTIDAD");
-				unDetalle.setCantidad(sc.nextInt());
+				do {
+					cod2 = false;
+					try {
+						unDetalle.setCantidad(sc.nextInt());
+					}catch(InputMismatchException e) {
+						System.out.println("NO INGRESE LETRAS");
+						System.out.println("INGRESE CANTIDAD NUEVAMENTE");
+						cod2 = true;
+						sc.next();
+					}
+				} while(cod2 == true);	
 				unDetalle.setSubtotal(unDetalle.getPrecioUnitario()*unDetalle.getCantidad());
 				System.out.println("SUB TOTAL: "+ unDetalle.getSubtotal());
 				unaFactura.setTotal(unaFactura.getTotal()+unDetalle.getSubtotal());
@@ -120,7 +176,18 @@ public class Principal {
 			
 				while (op!=2&&op!=1) {
 				System.out.println("DESEA AÑADIR OTRO PRODUCTO? 1-SI / 2-NO");
-				op = sc.nextInt();
+				do {
+					cod3 = false;
+					try {
+						op = sc.nextInt();
+					}catch(InputMismatchException e) {
+						System.out.println("SUS OPCIONES SON INGRESAR EL NUMERO 1 O 2 SOLAMENTE");
+						System.out.println("DESEA AÑADIR OTRO PRODUCTO? 1-SI / 2-NO");
+						cod3 = true;
+						sc.next();
+					}
+				} while(cod3 == true);	
+				
 				if (op==1) {
 					band=false;
 				}
@@ -140,11 +207,24 @@ public class Principal {
 		}
 	}
 	public static void buscarFactura() {
+		boolean cod;
+		long num=0;
 		IFacturaDao facturaDao = new FacturaDaoImp();
 		Factura unaFactura = new Factura();
 		Scanner sc = new Scanner(System.in); 
 		System.out.println("INGRESE FACTURA");
-		long num = sc.nextLong();
+		do {
+			cod = false;
+			try {
+				num = sc.nextLong();
+			}catch(InputMismatchException e) {
+				System.out.println("NO INGRESE LETRAS");
+				System.out.println("INGRESE FACTURA NUEVAMENTE");
+				cod = true;
+				sc.next();
+			}
+		} while(cod == true);	
+		
 		if (facturaDao.buscarFactura(num)==null) {
 			System.out.println("FACTURA NO ENCONTRADA");
 		}
