@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ar.edu.unju.escminas.tp8</groupId>
+  <artifactId>TP8_Grupo204</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>TP8_Grupo204</name>
+  <description>Trabajo Practico 8</description>
+  <properties>
+		<maven.compiler.target>13</maven.compiler.target>
+		<maven.compiler.source>13</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+  <dependency>
+		<groupId>org.hibernate</groupId>
+		<artifactId>hibernate-agroal</artifactId>
+		<version>5.4.22.Final</version>
+		<type>pom</type>
+	</dependency>
+  	
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-entitymanager</artifactId>
+	    <version>5.4.22.Final</version>
+	</dependency>
+	
+  	
+  	<dependency>
+  		<groupId>mysql</groupId>
+  		<artifactId>mysql-connector-java</artifactId>
+  		<version>8.0.22</version>
+	</dependency>
+	<dependency>
+	    <groupId>javax.persistence</groupId>
+	    <artifactId>javax.persistence-api</artifactId>
+	    <version>2.2</version>
+	</dependency>
+	
+  </dependencies>
+  <build>
+  <plugins>
+    <plugin>
+      <!-- Build an executable JAR -->
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-jar-plugin</artifactId>
+      <version>2.4</version>
+      <configuration>
+        <archive>
+          <manifest>
+            <addClasspath>true</addClasspath>
+            <classpathPrefix>lib/</classpathPrefix>
+            <mainClass></mainClass>
+          </manifest>
+        </archive>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+</project>
